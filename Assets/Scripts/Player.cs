@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private bool jumpVerify;
+    [SerializeField] private Transform bul;
+    [SerializeField] private ObjectPooler obp;
+    private bool jumpVerify;
 
     void Start()
     {
@@ -18,6 +20,16 @@ public class Player : MonoBehaviour
         if(Input.GetButtonDown("Jump") && jumpVerify){
             rb.AddForce(new Vector2(0, jumpForce));
         }
+        if(Input.GetButtonDown("Fire1")){
+            Shot();
+        }
+    }
+
+    void Shot(){
+        GameObject obj = obp.GetPooledObject();
+        if(obj == null) return;
+        obj.transform.position = bul.position;
+        obj.SetActive(true);
     }
 
     void FixedUpdate()
