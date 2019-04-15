@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform bul;
     [SerializeField] private ObjectPooler obp;
+    [SerializeField] private bool isFacingRight;
     private bool jumpVerify;
 
     void Start()
@@ -17,12 +18,12 @@ public class Player : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetButtonDown("Jump") && jumpVerify){
-            rb.AddForce(new Vector2(0, jumpForce));
-        }
-        if(Input.GetButtonDown("Fire1")){
-            Shot();
-        }
+        if(Input.GetButtonDown("Jump") && jumpVerify) rb.AddForce(new Vector2(0, jumpForce));
+
+        if(Input.GetButtonDown("Fire1")) Shot();
+
+        if(Input.GetKeyDown(KeyCode.RightArrow) && isFacingRight) Flip();
+        else if(Input.GetKeyDown(KeyCode.LeftArrow) && !isFacingRight) Flip();   
     }
 
     void Shot(){
@@ -30,6 +31,14 @@ public class Player : MonoBehaviour
         if(obj == null) return;
         obj.transform.position = bul.position;
         obj.SetActive(true);
+    }
+
+    void Flip(){
+        isFacingRight = !isFacingRight;
+  
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 
     void FixedUpdate()

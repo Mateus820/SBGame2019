@@ -260,6 +260,7 @@ MonoBehaviour:
   rb: {fileID: 119627873}
   bul: {fileID: 1391266429}
   obp: {fileID: 2063920947}
+  isFacingRight: 0
 --- !u!61 &119627877
 BoxCollider2D:
   m_ObjectHideFlags: 0
