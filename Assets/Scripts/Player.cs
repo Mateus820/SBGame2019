@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
+    public bool isFacingRight;
+
+    [SerializeField] private float speed, jumpForce;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform bul;
     [SerializeField] private ObjectPooler obp;
-    [SerializeField] private bool isFacingRight;
+    
     private bool jumpVerify;
 
     void Start()
@@ -22,20 +23,20 @@ public class Player : MonoBehaviour
 
         if(Input.GetButtonDown("Fire1")) Shot();
 
-        if(Input.GetKeyDown(KeyCode.RightArrow) && isFacingRight) Flip();
-        else if(Input.GetKeyDown(KeyCode.LeftArrow) && !isFacingRight) Flip();   
+        if(Input.GetKeyDown(KeyCode.RightArrow) && !isFacingRight) Flip();
+        else if(Input.GetKeyDown(KeyCode.LeftArrow) && isFacingRight) Flip();   
     }
 
     void Shot(){
         GameObject obj = obp.GetPooledObject();
         if(obj == null) return;
         obj.transform.position = bul.position;
+        obj.GetComponent<Bullet>().SetDirection(isFacingRight);
         obj.SetActive(true);
     }
 
     void Flip(){
         isFacingRight = !isFacingRight;
-  
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
