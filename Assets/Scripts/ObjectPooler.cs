@@ -17,22 +17,23 @@ public class ObjectPooler : MonoBehaviour
     }
 
     void Create(){
-        GameObject obj = (GameObject)Instantiate(pooledObject, transform);
+        GameObject obj = (GameObject) Instantiate(pooledObject, transform);
         obj.SetActive(false);
         objects.Add(obj);
     }
     
     public GameObject GetPooledObject(){
-        for(int i = 0; i < poolCount; i++){
+        for(int i = 0; i < objects.Count; i++){
             if(!objects[i].activeSelf){
                 return objects[i];
             }
         }
 
         if(willGrow){
-            GameObject obj = (GameObject)Instantiate(pooledObject, transform);
+            GameObject obj = (GameObject) Instantiate(pooledObject, transform);
             obj.SetActive(false);
             objects.Add(obj);
+            poolCount++;
             return obj;
         }
         return null;

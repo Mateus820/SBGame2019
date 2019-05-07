@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - BluePlayer
+  - RedPlayer
   layers:
   - Default
   - TransparentFX
@@ -41,4 +43,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BG
+    uniqueID: 1333693299
+    locked: 0
+  - name: Map
+    uniqueID: 160628789
+    locked: 0
+  - name: Player
+    uniqueID: 3045817853
     locked: 0
