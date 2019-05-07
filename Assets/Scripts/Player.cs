@@ -6,19 +6,19 @@ public class Player : MonoBehaviour
 {
     public bool isFacingRight;
 
-    [SerializeField] private float speed, jumpForce;
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Transform bul;
-    [SerializeField] private ObjectPooler obp;
+    [SerializeField] protected float speed, jumpForce;
+    [SerializeField] protected Rigidbody2D rb;
+    [SerializeField] protected Transform bul;
+    [SerializeField] protected ObjectPooler obp;
     
-    private bool jumpVerify;
+    protected bool jumpVerify;
 
-    void Start()
+    protected virtual void Start()
     {
         jumpVerify = false;
     }
 
-    void Update(){
+    protected virtual void Update(){
         if(Input.GetButtonDown("Jump") && jumpVerify) rb.AddForce(new Vector2(0, jumpForce));
 
         if(Input.GetButtonDown("Fire1")) Shot();
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.LeftArrow) && isFacingRight) Flip();   
     }
 
-    void Shot(){
+    public virtual void Shot(){
         GameObject obj = obp.GetPooledObject();
         if(obj == null) return;
         obj.transform.position = bul.position;
@@ -35,26 +35,26 @@ public class Player : MonoBehaviour
         obj.SetActive(true);
     }
 
-    void Flip(){
+    public virtual void Flip(){
         isFacingRight = !isFacingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         float x = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(speed * x, rb.velocity.y);        
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    protected virtual void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.tag == "Ground"){
             jumpVerify = true;
         }    
     }
 
-    void OnTriggerExit2D(Collider2D other) {
+    protected virtual void OnTriggerExit2D(Collider2D other) {
         if(other.gameObject.tag == "Ground"){
             jumpVerify = false;
         }    
