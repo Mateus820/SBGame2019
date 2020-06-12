@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     protected virtual void Start()
     {
         jumpVerify = false;
+        canShot = true;
         curLife = maxLife;
     }
 
@@ -71,15 +72,15 @@ public class Player : MonoBehaviour
 
         float shotDelayTemp = shotDelay;
         //I stoped in here!!
-        if(!canShot){
+        if(canShot){
             while(shotDelayTemp > 0){
-                canShot = true;
-                yield return new WaitForSeconds(0.1f);
-                shotDelayTemp -= 0.1f;
+                canShot = false;
+                yield return new WaitForSeconds(0.01f);
+                shotDelayTemp -= 0.01f;
                 ShotDelayUI(shotDelayTemp);
             }
         }
-        canShot = false;
+        canShot = true;
         print("Shot Delay: " + shotDelayTemp);
     }
 
